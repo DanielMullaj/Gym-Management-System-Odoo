@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_gym_root" name="Gym Management"/>
+
+    <menuitem id="menu_gym_members" name="Members" parent="menu_gym_root"/>
+    <menuitem id="menu_gym_trainers" name="Trainers" parent="menu_gym_root"/>
+    <menuitem id="menu_gym_memberships" name="Memberships" parent="menu_gym_root"/>
+    <menuitem id="menu_gym_activities" name="Activities" parent="menu_gym_root"/>
+    <menuitem id="menu_gym_attendances" name="Attendances" parent="menu_gym_root"/>
+</odoo>

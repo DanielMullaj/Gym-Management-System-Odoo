@@ -1,0 +1,61 @@
+<odoo>
+    <!-- Form View -->
+    <record id="view_gym_activity_form" model="ir.ui.view">
+        <field name="name">gym.activity.form</field>
+        <field name="model">gym.activity</field>
+        <field name="arch" type="xml">
+            <form string="Gym Activity">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="trainer_id"/>
+                        <field name="duration"/>
+                        <field name="date"/>
+                        <field name="start_time"/>
+                        <field name="end_time"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_gym_activity_tree" model="ir.ui.view">
+        <field name="name">gym.activity.tree</field>
+        <field name="model">gym.activity</field>
+        <field name="arch" type="xml">
+            <tree string="Gym Activities">
+                <field name="name"/>
+                <field name="trainer_id"/>
+                <field name="duration"/>
+                <field name="date"/>
+                <field name="start_time"/>
+                <field name="end_time"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Calendar View -->
+    <record id="view_gym_activity_calendar" model="ir.ui.view">
+        <field name="name">gym.activity.calendar</field>
+        <field name="model">gym.activity</field>
+        <field name="arch" type="xml">
+            <calendar string="Gym Activities"
+                      date_start="start_time"
+                      date_stop="end_time">
+                <field name="name"/>
+                <field name="trainer_id"/>
+            </calendar>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_gym_activity" model="ir.actions.act_window">
+        <field name="name">Gym Activities</field>
+        <field name="res_model">gym.activity</field>
+        <field name="view_mode">calendar,tree,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_gym_activities" name="Activities" parent="menu_gym_root" action="action_gym_activity"/>
+</odoo>
