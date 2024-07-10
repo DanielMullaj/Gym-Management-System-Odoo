@@ -7,4 +7,5 @@
     <menuitem id="menu_gym_memberships" name="Memberships" parent="menu_gym_root"/>
     <menuitem id="menu_gym_activities" name="Activities" parent="menu_gym_root"/>
     <menuitem id="menu_gym_attendances" name="Attendances" parent="menu_gym_root"/>
+    <menuitem id="menu_gym_payment" name="Payments" parent="menu_gym_root"/>
 </odoo>

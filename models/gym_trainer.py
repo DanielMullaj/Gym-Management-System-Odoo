@@ -1,5 +1,4 @@
 import re
-
 from odoo import models, fields, api
 
 
@@ -48,5 +47,6 @@ class GymTrainer(models.Model):
         for record in self:
             if record.phone and not phone_pattern.match(record.phone):
                 raise models.ValidationError(
-                    f"The phone number '{record.phone}' is not valid. Phone numbers in Albania must be exactly 9 digits."
+                    f"The phone number '{record.phone}' is not valid. "
+                    f"Phone numbers in Albania must be exactly 9 digits."
                 )

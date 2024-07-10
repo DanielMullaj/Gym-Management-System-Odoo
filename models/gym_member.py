@@ -1,9 +1,7 @@
-import re
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 from dateutil.relativedelta import relativedelta
-import logging
-
-_logger = logging.getLogger(__name__)
+import re
 
 
 class GymMember(models.Model):
@@ -21,47 +19,68 @@ class GymMember(models.Model):
     join_date = fields.Date(string='Join Date', default=fields.Date.today)
     expiry_date = fields.Date(string='Expiry Date', compute='_compute_expiry_date', store=True)
     membership_id = fields.Many2one('gym.membership', string='Membership')
+    attendance_ids = fields.One2many('gym.attendance', 'member_id', string='Attendances')
+    last_check_in = fields.Datetime(string='Last Check In', compute='_compute_last_check_in', store=True)
+    payment_ids = fields.One2many('gym.payment', 'member_id', string='Payments')
 
     @api.constrains('email')
     def _check_email(self):
         email_pattern = re.compile(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$")
         for record in self:
             if record.email and not email_pattern.match(record.email):
-                raise models.ValidationError(
+                raise ValidationError(
                     f"The email '{record.email}' is not valid. Please provide a correct email address."
                 )
+
+    @api.constrains('phone')
+    def _check_phone(self):
+        for record in self:
+            if record.phone and not record.phone.isdigit():
+                raise ValidationError('Phone number should contain only digits.')
+            if len(record.phone) != 9:
+                raise ValidationError('Phone number should be exactly 9 digits long.')
 
     @api.constrains('age')
     def _check_age(self):
         for record in self:
             if record.age < 17:
-                raise models.ValidationError(
-                    f"Members must be at least 17 years old to join the gym. '{record.name}' is too young."
-                )
-
-    @api.constrains('phone')
-    def _check_phone(self):
-        phone_pattern = re.compile(r"^\d{9}$")
-        for record in self:
-            if record.phone and not phone_pattern.match(record.phone):
-                raise models.ValidationError(
-                    f"The phone number '{record.phone}' is not valid. Phone numbers in Albania must be exactly 9 digits."
-                )
+                raise ValidationError('Members under 17 years old cannot join the gym.')
 
     @api.depends('join_date', 'membership_id')
     def _compute_expiry_date(self):
         for record in self:
             if record.join_date and record.membership_id:
-                try:
-                    duration = record.membership_id.duration
-                    _logger.info(f"Calculating expiry date: join_date={record.join_date}, duration={duration}")
-                    record.expiry_date = record.join_date + relativedelta(months=duration)
-                    _logger.info(f"Computed expiry_date={record.expiry_date}")
-                except Exception as e:
-                    _logger.error(f"Error calculating expiry date: {e}")
-                    record.expiry_date = False
+                duration = record.membership_id.duration
+                record.expiry_date = record.join_date + relativedelta(months=duration)
             else:
                 record.expiry_date = False
+
+    @api.depends('attendance_ids.check_in')
+    def _compute_last_check_in(self):
+        for member in self:
+            last_attendance = self.env['gym.attendance'].search([
+                ('member_id', '=', member.id),
+                ('status', '=', 'checked_in')
+            ], limit=1, order='check_in desc')
+            member.last_check_in = last_attendance.check_in if last_attendance else False
+
+    def action_check_in(self):
+        for member in self:
+            self.env['gym.attendance'].create({
+                'member_id': member.id,
+                'check_in': fields.Datetime.now(),
+            })
+
+    def action_check_out(self):
+        for member in self:
+            last_attendance = self.env['gym.attendance'].search([
+                ('member_id', '=', member.id),
+                ('status', '=', 'checked_in')
+            ], limit=1, order='check_in desc')
+            if last_attendance:
+                last_attendance.action_check_out()
+            else:
+                raise ValidationError('This member is not currently checked in.')
 
     def _capitalize_name(self):
         for record in self:

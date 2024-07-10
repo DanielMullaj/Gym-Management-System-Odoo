@@ -15,6 +15,7 @@
         'views/gym_attendance_views.xml',
         'views/gym_membership_views.xml',
         'views/gym_trainer_views.xml',
+        'views/gym_payment_views.xml',
     ],
 
     'installable': True,

@@ -39,10 +39,18 @@
                     <t t-name="kanban-box">
                         <div class="o_kanban_record">
                             <div class="oe_kanban_content">
-                                <strong><field name="name"/></strong>
-                                <div>Email: <field name="email"/></div>
-                                <div>Phone: <field name="phone"/></div>
-                                <div>Specialization: <field name="specialization"/></div>
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <div>Email:
+                                    <field name="email"/>
+                                </div>
+                                <div>Phone:
+                                    <field name="phone"/>
+                                </div>
+                                <div>Specialization:
+                                    <field name="specialization"/>
+                                </div>
                             </div>
                         </div>
                     </t>

@@ -49,9 +49,15 @@
                     <t t-name="kanban-box">
                         <div class="o_kanban_record">
                             <div class="oe_kanban_content">
-                                <strong><field name="name"/></strong>
-                                <div>Times: <field name="product_id"/></div>
-                                <div>Price: <field name="price"/></div>
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <div>Times:
+                                    <field name="product_id"/>
+                                </div>
+                                <div>Price:
+                                    <field name="price"/>
+                                </div>
                             </div>
                         </div>
                     </t>
