@@ -16,6 +16,9 @@
         'views/gym_membership_views.xml',
         'views/gym_trainer_views.xml',
         'views/gym_payment_views.xml',
+        'security/gym_security.xml',
+        'security/ir.model.access.csv',
+        'views/gym_report_views.xml',
     ],
 
     'installable': True,

@@ -6,11 +6,22 @@
         <field name="arch" type="xml">
             <form string="Gym Trainer">
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Full Name"/>
+                        </h1>
+                    </div>
+                    <br>
+                    </br>
                     <group>
-                        <field name="name"/>
-                        <field name="email"/>
-                        <field name="phone"/>
-                        <field name="specialization"/>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                        </group>
+                        <group>
+                            <field name="specialization"/>
+                        </group>
                     </group>
                 </sheet>
             </form>

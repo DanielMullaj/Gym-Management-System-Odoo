@@ -5,27 +5,32 @@
         <field name="model">gym.member</field>
         <field name="arch" type="xml">
             <form string="Gym Member">
+                <header>
+                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"
+                        statusbar_visible="draft,progress,done"/>
+                </header>
                 <sheet>
+                    <div class="oe_title">
+                            <label for="name"/>
+                            <h1>
+                                <field name="name" placeholder="Full Name"/>
+                            </h1>
+                        </div>
                     <group>
-                        <field name="name"/>
-                        <field name="email"/>
-                        <field name="phone"/>
-                        <field name="age"/>
-                        <field name="gender"/>
-                        <field name="join_date"/>
-                        <field name="expiry_date"/>
-                        <field name="membership_id"/>
-                        <field name="last_check_in"/>
+                        <group>
+                            <field name="email"/>
+                            <field name="phone"/>
+                            <field name="age"/>
+                            <field name="gender"/>
+                        </group>
+                        <group>
+                            <field name="join_date"/>
+                            <field name="expiry_date"/>
+                            <field name="membership_id"/>
+                            <field name="last_check_in"/>
+                        </group>
                     </group>
                     <notebook>
-                        <page string="Attendances">
-                            <field name="attendance_ids">
-                                <tree string="Attendances">
-                                    <field name="check_in"/>
-                                    <field name="check_out"/>
-                                </tree>
-                            </field>
-                        </page>
                         <page string="Payments">
                             <field name="payment_ids">
                                 <tree string="Payments">
@@ -48,14 +53,12 @@
         <field name="arch" type="xml">
             <tree string="Gym Members">
                 <field name="name"/>
-                <field name="email"/>
                 <field name="phone"/>
-                <field name="age"/>
-                <field name="gender"/>
                 <field name="join_date"/>
                 <field name="expiry_date"/>
-                <field name="membership_id"/>
-                <field name="last_check_in"/>
+                <field name="membership_id" widget="badge"/>
+                <field name="state"
+                        decoration-success="state == 'done'" decoration-info="state in ('draft', 'progress')" widget="badge"/>
             </tree>
         </field>
     </record>

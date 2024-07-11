@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 
 class GymPayment(models.Model):
@@ -31,3 +32,8 @@ class GymPayment(models.Model):
     def _onchange_membership_id(self):
         if self.membership_id:
             self.amount = self.membership_id.price
+
+    @api.onchange(amount)
+    def _onchange_methods(self):
+        if self.amount < 0:
+            raise UserError('Negative numbers are not accepted!!')

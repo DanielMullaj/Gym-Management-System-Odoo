@@ -28,17 +28,17 @@ class GymTrainer(models.Model):
     def _capitalize_name(self):
         for record in self:
             if record.name:
-                record.name = record.name.capitalize()
+                record.name = record.name[0].upper() + record.name[1:]
 
     @api.model
     def create(self, vals):
-        if 'name' in vals:
-            vals['name'] = vals['name'].capitalize()
+        if 'name' in vals and vals['name']:
+            vals['name'] = vals['name'][0].upper() + vals['name'][1:]
         return super(GymTrainer, self).create(vals)
 
     def write(self, vals):
         if 'name' in vals and vals['name']:
-            vals['name'] = vals['name'].capitalize()
+            vals['name'] = vals['name'][0].upper() + vals['name'][1:]
         return super(GymTrainer, self).write(vals)
 
     @api.constrains('phone')

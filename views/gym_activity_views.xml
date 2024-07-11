@@ -6,14 +6,31 @@
         <field name="model">gym.activity</field>
         <field name="arch" type="xml">
             <form string="Gym Activity">
+                <header>
+                    <button name="action_share_whatsapp" string="Message Trainer" class="oe_highlight"
+                            data-hotkey="w" icon="fa-whatsapp"
+                            type="object"/>
+
+                    <field name="state" widget="statusbar" nolabel="1" options="{'clickable': '1'}"
+                        statusbar_visible="draft,progress,done"/>
+                </header>
                 <sheet>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1>
+                            <field name="name" placeholder="Choose"/>
+                        </h1>
+                    </div>
                     <group>
-                        <field name="name"/>
-                        <field name="trainer_id"/>
-                        <field name="duration"/>
-                        <field name="date"/>
-                        <field name="start_time"/>
-                        <field name="end_time"/>
+                        <group>
+                            <field name="trainer_id"/>
+                            <field name="duration"/>
+                        </group>
+                        <group>
+                            <field name="date"/>
+                            <field name="start_time"/>
+                            <field name="end_time"/>
+                        </group>
                     </group>
                 </sheet>
             </form>
@@ -31,6 +48,8 @@
                 <field name="date"/>
                 <field name="start_time"/>
                 <field name="end_time"/>
+                <field name="state"
+                        decoration-success="state == 'done'" decoration-info="state in ('draft', 'progress')" widget="badge"/>
             </tree>
         </field>
     </record>

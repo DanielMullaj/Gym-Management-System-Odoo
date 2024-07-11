@@ -22,6 +22,11 @@ class GymMember(models.Model):
     attendance_ids = fields.One2many('gym.attendance', 'member_id', string='Attendances')
     last_check_in = fields.Datetime(string='Last Check In', compute='_compute_last_check_in', store=True)
     payment_ids = fields.One2many('gym.payment', 'member_id', string='Payments')
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('progress', 'Progress'),
+        ('done', 'Confirmed'),
+        ('cancel', 'Cancelled')], default='draft', string="Status", required=True)
 
     @api.constrains('email')
     def _check_email(self):
@@ -37,8 +42,8 @@ class GymMember(models.Model):
         for record in self:
             if record.phone and not record.phone.isdigit():
                 raise ValidationError('Phone number should contain only digits.')
-            if len(record.phone) != 9:
-                raise ValidationError('Phone number should be exactly 9 digits long.')
+            if len(record.phone) != 10:
+                raise ValidationError('Phone number should be exactly 10 digits long.')
 
     @api.constrains('age')
     def _check_age(self):
@@ -85,15 +90,16 @@ class GymMember(models.Model):
     def _capitalize_name(self):
         for record in self:
             if record.name:
-                record.name = record.name.capitalize()
+                record.name = record.name[0].upper() + record.name[1:]
 
     @api.model
     def create(self, vals):
-        if 'name' in vals:
-            vals['name'] = vals['name'].capitalize()
+        if 'name' in vals and vals['name']:
+            vals['name'] = vals['name'][0].upper() + vals['name'][1:]
         return super(GymMember, self).create(vals)
 
     def write(self, vals):
         if 'name' in vals and vals['name']:
-            vals['name'] = vals['name'].capitalize()
+            vals['name'] = vals['name'][0].upper() + vals['name'][1:]
         return super(GymMember, self).write(vals)
+
