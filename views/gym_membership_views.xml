@@ -33,9 +33,9 @@
         <field name="model">gym.membership</field>
         <field name="arch" type="xml">
             <tree string="Gym Memberships">
-                <field name="name"/>
-                <field name="product_id"/>
-                <field name="price"/>
+                <field name="name" widget="badge"/>
+                <field name="product_id" widget="badge"/>
+                <field name="price" widget="badge"/>
             </tree>
         </field>
     </record>
