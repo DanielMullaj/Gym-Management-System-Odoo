@@ -3,6 +3,7 @@ Gym-Management-System
 This application is an Odoo module designed to streamline gym operations, including member management, trainer scheduling, payment tracking, and report generation.
 
 Features
+
 Gym Trainer Management
 Manage trainer details (name, email, phone, specialization).
 Validate email and phone formats.
@@ -36,11 +37,13 @@ Schedule and manage activities (name, trainer, duration, date, start time, end t
 Send WhatsApp messages to trainers with activity details.
 
 Installation
+
 Clone the repository to your Odoo addons directory.
 Update the Odoo module list.
 Install the "Gym Management" module from the Odoo Apps menu.
 
 Usage
+
 Manage trainers, members, payments, and activities.
 Generate and view various gym reports.
 Track member attendance and ensure data integrity.
